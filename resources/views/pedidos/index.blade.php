@@ -4,8 +4,10 @@
     <div class="col-sm-12">
         <input type="text" id="idmesa" value="{{$mesa->id}}" hidden>
         <h4>Usted está atendiendo en la {{$mesa->nombre_mesa}}</h4>
+         <input type="text" value="{{$mesa->id}}" name="idmesa" id="idmesa" hidden>
         <h5>Pedidos</h5>
     </div>
+    
     
     {{-- CARD LA LISTA DE PLATOS O BEBIDAS --}}
     <div class="col-sm-8">
@@ -99,6 +101,9 @@
 @section('extra_js')
 <script>
 
+    
+    pasar_plato();
+
     $(document).on("click",".pasar_plato",function (e) { 
         e.preventDefault();
         fila = $(this).closest("tr");
@@ -113,20 +118,27 @@
             data: ds,
             dataType: "json",
             success: function (response) {
-                
+                pasar_plato();
             }
         });
 
+        pasar_plato();
+        
+     })
 
+     function pasar_plato() { 
+        idmesa=$("#idmesa").val();
         $.ajax({
             type: "GET",
-            url: "/pedidos/show",
+            url: "/pedidos/show/"+idmesa,
             dataType: "json",
             success: function (response) {
-                array.forEach(element => {
+                console.log(response);
+                response.forEach(element => {
+                    console.log(element.nombre_plato)
                     $("#lista_pedidos").append('<tr>'+
                         '<td>'+
-                            '<p>'+'Pollo a la brasa con cremitas'+'</p>'+
+                            '<p>'+element.nombre_plato+'</p>'+
                             '<div class="group-inline">'+
                             '<a href="" class="btn btn-info btn-sm" style="width: 60px"><li class="lni lni-plus"></li></a>'+
                             '<a href="" class="btn btn-warning btn-sm" style="width: 60px"><li class="lni lni-minus"></li></a>'+
@@ -142,9 +154,7 @@
                 });
             }
         });
-     })
-
-
+      }
        
 
 

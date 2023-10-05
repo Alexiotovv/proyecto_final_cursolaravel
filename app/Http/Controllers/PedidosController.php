@@ -46,13 +46,15 @@ class PedidosController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(pedidos $pedidos)
+    public function show($idmesa)
     {
         $obj= DB::table('pedidos')
-        ->lefjoin('platos','platos.id','=','pedidos.id_platos')
-        ->where('estado','=','ORDENADO')
-        ->select('platos.nombre_plato','')
+        ->leftjoin('platos','platos.id','=','pedidos.id_platos')
+        ->where('pedidos.estado','=','ORDENADO')
+        ->where('pedidos.id_mesas','=',$idmesa)
+        ->select('platos.*','pedidos.*')
         ->get();
+
         return response()->json($obj);
     }
 

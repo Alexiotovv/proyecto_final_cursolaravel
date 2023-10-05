@@ -27,6 +27,6 @@ Route::post('/platos/update', [PlatosController::class, 'update'])->name('platos
 Route::get('/pedidos/index', [PedidosController::class, 'index'])->name('pedidos.index');
 Route::get('/pedidos/create/{id}', [PedidosController::class, 'create'])->name('pedidos.create');
 Route::post('/pedidos/store', [PedidosController::class, 'store'])->name('pedidos.store');
-Route::get('/pedidos/show/', [PedidosController::class, 'show'])->name('pedidos.show');
+Route::get('/pedidos/show/{idmesa}', [PedidosController::class, 'show'])->name('pedidos.show');
 
 
